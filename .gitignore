@@ -1,5 +1,6 @@
 # Adi custom files
 *.opensdf
+*.sdf
 
 # Compiled Object files
 *.slo
