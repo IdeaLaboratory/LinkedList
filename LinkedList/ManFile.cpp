@@ -18,6 +18,7 @@ private:
 public:
 	void InsertAtFirst(int input);
 	void DeleteNode(int inputValue);
+	void InsertAtPosition(int input, int pos);
 
 };
 
@@ -72,6 +73,24 @@ void LinkedList::DeleteNode(int inputValue)
 	}
 }
 
+//considered, initial position is 0.
+void LinkedList::InsertAtPosition(int input, int pos)
+{
+	//
+	Node *current = head;
+	Node *previous = NULL;
+
+	for (int i = 0; i < pos; i++)	// i < initial position [either 0 or 1],	i < given position
+	{
+		previous = current;
+		current = current->next;
+	}
+	//create a node with given value and lined at given position of existing list
+	Node *temp = CreateNode(input);
+	previous->next = temp;
+	temp->next = current;
+}
+
 //driver program, main
 	int main()
 	{
@@ -82,6 +101,7 @@ void LinkedList::DeleteNode(int inputValue)
 		l1.InsertAtFirst(11);
 
 		l1.DeleteNode(5);
+		l1.InsertAtPosition(100, 1);	// i.e. 2nd position, as we considered initial position is 0.
 
 		return 0;
 	}
