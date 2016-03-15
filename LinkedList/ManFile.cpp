@@ -12,14 +12,19 @@ class LinkedList
 {
 private:
 	Node *head = NULL;
-	//just create a node
+	//just create a Node
 	Node* CreateNode(int value);
 
 public:
+	int cc = 0;
+	Node** GetHead()
+	{
+		return &head;
+	}
 	void InsertAtFirst(int input);
 	void DeleteNode(int inputValue);
 	void InsertAtPosition(int input, int pos);
-
+	void SelectionSort(Node **input);
 };
 
 Node* LinkedList::CreateNode(int pValue)
@@ -64,7 +69,7 @@ void LinkedList::DeleteNode(int inputValue)
 				break;	//reduce un necessary looping
 			}
 		}
-		//move the pointer of "previous" and "current" node
+		//move the pointer of "previous" and "current" Node
 		else
 		{
 			previous = current;
@@ -85,23 +90,54 @@ void LinkedList::InsertAtPosition(int input, int pos)
 		previous = current;
 		current = current->next;
 	}
-	//create a node with given value and lined at given position of existing list
+	//create a Node with given value and lined at given position of existing list
 	Node *temp = CreateNode(input);
 	previous->next = temp;
 	temp->next = current;
 }
 
-//driver program, main
-	int main()
+void LinkedList::SelectionSort(Node **input)
+{
+	Node *startPtr = *input;
+	Node *endPtr = NULL;
+	//loop i= 0 to n-1
+	while (startPtr->next!=NULL)
 	{
-		LinkedList l1;
-		l1.InsertAtFirst(10);
-		l1.InsertAtFirst(5);
-		l1.InsertAtFirst(7);
-		l1.InsertAtFirst(11);
-
-		l1.DeleteNode(5);
-		l1.InsertAtPosition(100, 1);	// i.e. 2nd position, as we considered initial position is 0.
-
-		return 0;
+		endPtr = startPtr->next;
+		//loop j=i+1 to n
+		while (endPtr!=NULL)
+		{
+			//swap if require
+			if (startPtr->val > endPtr->val)
+			{
+				int tempVal = startPtr->val;
+				startPtr->val = endPtr->val;
+				endPtr->val = tempVal;
+			}
+			endPtr = endPtr->next;
+		}
+		startPtr = startPtr->next;
 	}
+}
+
+///////////////////////////
+//driver program, main
+int main()
+{
+	LinkedList l1;
+	
+	l1.InsertAtFirst(1000);
+	l1.InsertAtFirst(135);
+	l1.InsertAtFirst(3500);
+	l1.InsertAtFirst(15);
+	l1.InsertAtFirst(7);
+	l1.InsertAtFirst(1);
+
+	//l1.DeleteNode(5);
+	//l1.InsertAtPosition(100, 1);	// i.e. 2nd position, as we considered initial position is 0.
+	Node **temp = l1.GetHead();		//
+
+	l1.SelectionSort(temp);
+
+	return 0;
+}
