@@ -24,7 +24,11 @@ public:
 	void InsertAtFirst(int input);
 	void DeleteNode(int inputValue);
 	void InsertAtPosition(int input, int pos);
-	void SelectionSort(Node **input);
+	void MergeSort(Node **head);
+	/* function prototypes */
+	struct Node* SortedMerge(struct Node* a, struct Node* b);
+	void FrontBackSplit(struct Node* source, struct Node** frontRef, struct Node** backRef);
+
 };
 
 Node* LinkedList::CreateNode(int pValue)
@@ -96,29 +100,104 @@ void LinkedList::InsertAtPosition(int input, int pos)
 	temp->next = current;
 }
 
-void LinkedList::SelectionSort(Node **input)
+
+/* sorts the linked list by changing next pointers (not data) */
+void LinkedList::MergeSort(struct Node** headRef)
 {
-	Node *startPtr = *input;
-	Node *endPtr = NULL;
-	//loop i= 0 to n-1
-	while (startPtr->next!=NULL)
+	struct Node* head = *headRef;
+	struct Node* a;
+	struct Node* b;
+
+	/* Base case -- length 0 or 1 */
+	if ((head == NULL) || (head->next == NULL))
 	{
-		endPtr = startPtr->next;
-		//loop j=i+1 to n
-		while (endPtr!=NULL)
-		{
-			//swap if require
-			if (startPtr->val > endPtr->val)
-			{
-				int tempVal = startPtr->val;
-				startPtr->val = endPtr->val;
-				endPtr->val = tempVal;
-			}
-			endPtr = endPtr->next;
-		}
-		startPtr = startPtr->next;
+		return;
 	}
+
+	/* Split head into 'a' and 'b' sublists */
+	FrontBackSplit(head, &a, &b);
+
+	/* Recursively sort the sublists */
+	MergeSort(&a);
+	MergeSort(&b);
+
+	/* answer = merge the two sorted lists together */
+	*headRef = SortedMerge(a, b);
 }
+
+/* Split the nodes of the given list into front and back halves,
+and return the two lists using the reference parameters.
+If the length is odd, the extra Node should go in the front list.
+Uses the fast/slow pointer strategy.  */
+void LinkedList::FrontBackSplit(struct Node* source, struct Node** frontRef, struct Node** backRef)
+{
+	struct Node* fast;
+	struct Node* slow;
+
+	slow = source;
+	fast = source->next;
+
+	/* Advance 'fast' two Nodes, and advance 'slow' one Node */
+	while (fast != NULL)
+	{
+		fast = fast->next;
+		if (fast != NULL)
+		{
+			slow = slow->next;
+			fast = fast->next;
+		}
+
+	}/* 'slow' is before the midpoint in the list, so split it in two
+		at that point. */
+	*frontRef = source;
+	*backRef = slow->next;
+	slow->next = NULL;	//split the link
+}
+
+struct Node* LinkedList::SortedMerge(struct Node* a, struct Node* b)
+{
+	cc++;
+	cout << cc << endl;
+	/* Base cases */
+	if (a == NULL)
+		return(b);
+	else if (b == NULL)
+		return(a);
+
+	/* Pick either a or b, and recur */
+	if (a->val <= b->val)
+	{
+		a->next = SortedMerge(a->next, b);
+		return a;
+	}
+	else
+	{
+		b->next = SortedMerge(b->next, a);
+		return b;
+	}
+
+	//struct Node* result = NULL;
+
+	///* Base cases */
+	//if (a == NULL)
+	//	return(b);
+	//else if (b == NULL)
+	//	return(a);
+
+	///* Pick either a or b, and recur */
+	//if (a->val <= b->val)
+	//{
+	//	result = a;
+	//	result->next = SortedMerge(a->next, b);
+	//}
+	//else
+	//{
+	//	result = b;
+	//	result->next = SortedMerge(a, b->next);
+	//}
+	//return(result);
+}
+
 
 ///////////////////////////
 //driver program, main
@@ -126,18 +205,16 @@ int main()
 {
 	LinkedList l1;
 	
-	l1.InsertAtFirst(1000);
-	l1.InsertAtFirst(135);
-	l1.InsertAtFirst(3500);
-	l1.InsertAtFirst(15);
-	l1.InsertAtFirst(7);
 	l1.InsertAtFirst(1);
+	l1.InsertAtFirst(500);
+	l1.InsertAtFirst(135);
+	l1.InsertAtFirst(7);
+	//l1.InsertAtFirst(11);
 
 	//l1.DeleteNode(5);
 	//l1.InsertAtPosition(100, 1);	// i.e. 2nd position, as we considered initial position is 0.
 	Node **temp = l1.GetHead();		//
-
-	l1.SelectionSort(temp);
+	l1.MergeSort(temp);
 
 	return 0;
 }
