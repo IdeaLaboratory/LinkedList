@@ -12,12 +12,13 @@ struct Node
 class LinkedList
 {
 private:
-	Node *head = NULL;
+	Node *head;
 	//just create a Node
 	Node* CreateNode(int value);
 
 public:
-	int cc = 0;
+    LinkedList();
+	int cc;
 	Node** GetHead()
 	{
 		return &head;
@@ -31,6 +32,14 @@ public:
 	void FrontBackSplit(struct Node* source, struct Node** frontRef, struct Node** backRef);
 
 };
+
+LinkedList::LinkedList()
+{
+    head = NULL;
+    cc = 0;
+}
+
+
 
 Node* LinkedList::CreateNode(int pValue)
 {
