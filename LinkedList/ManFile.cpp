@@ -1,5 +1,6 @@
 #include "ManFile.h"
 #include <iostream>
+#include <cstdlib>
 using namespace std;
 
 struct Node
@@ -55,7 +56,7 @@ void LinkedList::DeleteNode(int inputValue)
 
 	while (current != NULL)
 	{
-		//iteration 
+		//iteration
 		if (current->val == inputValue)
 		{
 			//deleting head
@@ -204,7 +205,7 @@ struct Node* LinkedList::SortedMerge(struct Node* a, struct Node* b)
 int main()
 {
 	LinkedList l1;
-	
+
 	l1.InsertAtFirst(1);
 	l1.InsertAtFirst(500);
 	l1.InsertAtFirst(135);
