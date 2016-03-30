@@ -3,11 +3,11 @@
 #include <cstdlib>
 using namespace std;
 
-struct Node
+typedef struct _Node
 {
 	int val;
-	Node *next;
-}*start;
+	struct _Node *next;
+} Node;
 
 class LinkedList
 {
@@ -28,8 +28,8 @@ public:
 	void InsertAtPosition(int input, int pos);
 	void MergeSort(Node **head);
 	/* function prototypes */
-	struct Node* SortedMerge(struct Node* a, struct Node* b);
-	void FrontBackSplit(struct Node* source, struct Node** frontRef, struct Node** backRef);
+	Node* SortedMerge(Node* a,Node* b);
+	void FrontBackSplit(Node* source, Node** frontRef, Node** backRef);
 
 };
 
@@ -60,8 +60,8 @@ void LinkedList::InsertAtFirst(int input)
 
 void LinkedList::DeleteNode(int inputValue)
 {
-	struct Node* current = head;
-	struct Node* previous = NULL;
+	Node* current = head;
+	Node* previous = NULL;
 
 	while (current != NULL)
 	{
@@ -112,11 +112,11 @@ void LinkedList::InsertAtPosition(int input, int pos)
 
 
 /* sorts the linked list by changing next pointers (not data) */
-void LinkedList::MergeSort(struct Node** headRef)
+void LinkedList::MergeSort(Node** headRef)
 {
-	struct Node* head = *headRef;
-	struct Node* a;
-	struct Node* b;
+	Node* head = *headRef;
+	Node* a;
+	Node* b;
 
 	/* Base case -- length 0 or 1 */
 	if ((head == NULL) || (head->next == NULL))
@@ -139,10 +139,10 @@ void LinkedList::MergeSort(struct Node** headRef)
 and return the two lists using the reference parameters.
 If the length is odd, the extra Node should go in the front list.
 Uses the fast/slow pointer strategy.  */
-void LinkedList::FrontBackSplit(struct Node* source, struct Node** frontRef, struct Node** backRef)
+void LinkedList::FrontBackSplit(Node* source, Node** frontRef, Node** backRef)
 {
-	struct Node* fast;
-	struct Node* slow;
+	Node* fast;
+	Node* slow;
 
 	slow = source;
 	fast = source->next;
@@ -164,7 +164,7 @@ void LinkedList::FrontBackSplit(struct Node* source, struct Node** frontRef, str
 	slow->next = NULL;	//split the link
 }
 
-struct Node* LinkedList::SortedMerge(struct Node* a, struct Node* b)
+Node* LinkedList::SortedMerge(Node* a, Node* b)
 {
 	cc++;
 	cout << cc << endl;
