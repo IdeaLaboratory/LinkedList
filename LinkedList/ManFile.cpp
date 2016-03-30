@@ -3,11 +3,11 @@
 #include <cstdlib>
 using namespace std;
 
-typedef struct _Node
+struct Node
 {
 	int val;
-	struct _Node *next;
-} Node;
+	struct Node *next;
+};
 
 class LinkedList
 {
