@@ -18,12 +18,11 @@ private:
 
 public:
     LinkedList();
-	int cc;
 	Node** GetHead()
 	{
 		return &head;
 	}
-	void InsertAtFirst(int input);
+	void InsertAtFirst(int inputValue);
 	void DeleteNode(int inputValue);
 	void InsertAtPosition(int input, int pos);
 	void MergeSort(Node **head);
@@ -31,12 +30,14 @@ public:
 	Node* SortedMerge(Node* a,Node* b);
 	void FrontBackSplit(Node* source, Node** frontRef, Node** backRef);
 
+	//InsertedInSorted
+	void InsertedInSorted(int inputValue);
+
 };
 
 LinkedList::LinkedList()
 {
     head = NULL;
-    cc = 0;
 }
 
 
@@ -115,8 +116,8 @@ void LinkedList::InsertAtPosition(int input, int pos)
 void LinkedList::MergeSort(Node** headRef)
 {
 	Node* head = *headRef;
-	Node* a;
-	Node* b;
+	Node* firstHalf;
+	Node* secondHalf;
 
 	/* Base case -- length 0 or 1 */
 	if ((head == NULL) || (head->next == NULL))
@@ -125,14 +126,14 @@ void LinkedList::MergeSort(Node** headRef)
 	}
 
 	/* Split head into 'a' and 'b' sublists */
-	FrontBackSplit(head, &a, &b);
+	FrontBackSplit(head, &firstHalf, &secondHalf);
 
 	/* Recursively sort the sublists */
-	MergeSort(&a);
-	MergeSort(&b);
+	MergeSort(&firstHalf);
+	MergeSort(&secondHalf);
 
 	/* answer = merge the two sorted lists together */
-	*headRef = SortedMerge(a, b);
+	*headRef = SortedMerge(firstHalf, secondHalf);
 }
 
 /* Split the nodes of the given list into front and back halves,
@@ -164,46 +165,70 @@ void LinkedList::FrontBackSplit(Node* source, Node** frontRef, Node** backRef)
 	slow->next = NULL;	//split the link
 }
 
-Node* LinkedList::SortedMerge(Node* a, Node* b)
+Node* LinkedList::SortedMerge(Node* firstHalf, Node* secondHalf)
 {
-	cc++;
-	cout << cc << endl;
 	/* Base cases */
-	if (a == NULL)
-		return(b);
-	else if (b == NULL)
-		return(a);
+	if (firstHalf == NULL)
+		return(secondHalf);
+	else if (secondHalf == NULL)
+		return(firstHalf);
 
 	/* Pick either a or b, and recur */
-	if (a->val <= b->val)
+	if (firstHalf->val <= secondHalf->val)
 	{
-		a->next = SortedMerge(a->next, b);
-		return a;
+		firstHalf->next = SortedMerge(firstHalf->next, secondHalf);
+		return firstHalf;
 	}
 	else
 	{
-		b->next = SortedMerge(b->next, a);
-		return b;
+		secondHalf->next = SortedMerge(secondHalf->next, firstHalf);
+		return secondHalf;
 	}
 }
 
+
+void LinkedList::InsertedInSorted(int inputValue)
+{
+	Node *tempNode = head;
+	//get the position to insert
+	while (tempNode && tempNode->next && tempNode->next->val < inputValue)
+	{
+		tempNode = tempNode->next;
+	}
+	
+	Node *newNode= new Node();
+	newNode->val = inputValue;
+	newNode->next = tempNode->next;
+	tempNode->next = newNode;
+}
 
 ///////////////////////////
 //driver program, main
 int main()
 {
 	LinkedList l1;
+	Node **temp = l1.GetHead();		//
 
+	//Insert node in list
 	l1.InsertAtFirst(1);
 	l1.InsertAtFirst(500);
 	l1.InsertAtFirst(135);
 	l1.InsertAtFirst(7);
-	//l1.InsertAtFirst(11);
+	l1.InsertAtFirst(311);
 
-	//l1.DeleteNode(5);
+	//insert a node in given position
 	//l1.InsertAtPosition(100, 1);	// i.e. 2nd position, as we considered initial position is 0.
-	Node **temp = l1.GetHead();		//
+	
+
+	//sort the list
 	l1.MergeSort(temp);
+
+	//Issert a node in sorted list
+	l1.InsertedInSorted(247);
+
+	//delete a node
+	//void deleteNode(struct node *head, struct node *n)
+	//l1.DeleteNode(7);
 
 	return 0;
 }
