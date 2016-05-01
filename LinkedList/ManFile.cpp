@@ -31,7 +31,8 @@ public:
 	void FrontBackSplit(Node* source, Node** frontRef, Node** backRef);
 
 	//InsertedInSorted
-	void InsertedInSorted(int inputValue);
+	void InsertInSorted(int inputValue);
+	void PrintList();
 
 };
 
@@ -187,7 +188,7 @@ Node* LinkedList::SortedMerge(Node* firstHalf, Node* secondHalf)
 }
 
 
-void LinkedList::InsertedInSorted(int inputValue)
+void LinkedList::InsertInSorted(int inputValue)
 {
 	Node *tempNode = head;
 	//get the position to insert
@@ -200,6 +201,17 @@ void LinkedList::InsertedInSorted(int inputValue)
 	newNode->val = inputValue;
 	newNode->next = tempNode->next;
 	tempNode->next = newNode;
+}
+
+//Print all the elements in list
+void LinkedList::PrintList()
+{
+	Node *tempNode = head;
+	while (tempNode != NULL)
+	{
+		cout << "\n" << tempNode->val;
+		tempNode = tempNode->next;
+	}
 }
 
 ///////////////////////////
@@ -224,11 +236,12 @@ int main()
 	l1.MergeSort(temp);
 
 	//Issert a node in sorted list
-	l1.InsertedInSorted(247);
+	l1.InsertInSorted(247);
 
 	//delete a node
 	//void deleteNode(struct node *head, struct node *n)
 	//l1.DeleteNode(7);
 
+	l1.PrintList();
 	return 0;
 }
