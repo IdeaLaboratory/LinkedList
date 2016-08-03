@@ -73,8 +73,8 @@ void LinkedList::DeleteNode(int inputValue)
 			//deleting head
 			if (previous == NULL)
 			{
-				current = current->next;
-				free(head);
+				head = head->next;
+				free(current);
 				break;	//reduce un necessary looping
 			}
 			else
@@ -228,6 +228,7 @@ int main()
 	l1.InsertAtFirst(7);
 	l1.InsertAtFirst(311);
 
+	l1.DeleteNode(311);
 	//insert a node in given position
 	//l1.InsertAtPosition(100, 1);	// i.e. 2nd position, as we considered initial position is 0.
 	

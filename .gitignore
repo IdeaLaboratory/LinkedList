@@ -1,6 +1,10 @@
 # Adi custom files
 *.opensdf
 *.sdf
+*.suo
+*.db
+*.opendb
+*.bak
 
 # Compiled Object files
 *.slo
@@ -34,3 +38,5 @@
 # Codeblock files
 *.cbp
 *.depend
+/LinkedList/ManFile_ol.cpp
+/LinkedList/Debug
