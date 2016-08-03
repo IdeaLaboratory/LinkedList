@@ -13,3 +13,9 @@ so actual complexity will be O(n* nLogn).
 
 #3
 But before implement merge sort we can quickly implement selection sort.
+
+#4
+Implemented function to print all the nodes data
+
+#5
+Suppose only a pointer to a node is given. How to be deleted the same from a singly linked list? (to be answered)
